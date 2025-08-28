@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aida üçün ✨</title>
+    <style>
+        :root {
+            --acc1: #ff7ac6;
+            --acc2: #8be9fd;
+            --acc3: #ffd166;
+            --white: #f7f7ff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            height: 100%;
+            font-family: 'Inter',sans-serif;
+            background: #0f1021;
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            padding: 20px;
+            border-radius: 28px;
+            background: rgba(255,255,255,0.05);
+            text-align: center;
+            width: min(95%,900px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg,var(--acc2),var(--acc1),var(--acc3));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .sub {
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 14px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            background: linear-gradient(135deg,var(--acc2),var(--acc1));
+            color: #0b0c1d;
+            transition: .3s;
+        }
+
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(255,122,198,0.35);
+            }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .tile {
+            background: rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 12px;
+        }
+
+            .tile .emoji {
+                font-size: 28px;
+                margin-bottom: 6px;
+                display: block;
+            }
+
+        .flip {
+            perspective: 1000px;
+        }
+
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            transform-style: preserve-3d;
+            transition: transform .8s;
+        }
+
+        .flip:hover .flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .face {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg,rgba(139,233,253,0.18),rgba(255,122,198,0.18));
+        }
+
+        footer {
+            margin-top: 18px;
+            font-size: 14px;
+            opacity: .7;
+        }
+
+        audio {
+            margin-top: 15px;
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>AIDA</h1>
+        <p class="sub"><span id="type"></span></p>
+        <div class="btn-container">
+            <button id="magic">Sehrə başla ✨</button>
+            <button id="musicBtn">Səsləndir ♫</button>
+        </div>
+
+        <div id="reveal" style="display:none;">
+            <div class="grid">
+                <div class="tile"><span class="emoji">🌇</span><h3>Bakı işıqları səninlə </h3><p>Aida, gülümsəyəndə şəhər də sanki daha rəngli olur.</p></div>
+                <div class="tile"><span class="emoji">💫</span><h3>Kiçik möcüzələr</h3><p>Günün ortasında yazılan balaca mesaj belə səni xatırladanda gözəl olur.</p></div>
+                <div class="tile"><span class="emoji">🎈</span><h3>Yüngüllük</h3><p>Sənin enerjin hər söhbətə rahatlıq və yumor qatır.</p></div>
+                <div class="tile flip"><div class="flip-inner"><div class="face">Kartı çevir ➜</div><div class="face back"><em>Bu səhifə kiçik bir səbəbdir… əsl səbəb sənsən. 💖</em></div></div></div>
+            </div>
+            <footer>Kenan tərəfindən 💙 · <span id="date"></span></footer>
+        </div>
+
+        <!-- Lokal MP3 fayl -->
+        <audio id="audio" src="love.mp3" controls></audio>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Typewriter effekti
+                const lines = ['✨ Aida ✨', '✨ Sən çox gözəlsən ✨'];
+                let li = 0, ci = 0;
+                const typeEl = document.getElementById('type');
+
+                function typeLoop() {
+                    if (li >= lines.length) li = 0;
+                    const text = lines[li];
+                    typeEl.textContent = text.slice(0, ++ci);
+                    if (ci <= text.length) setTimeout(typeLoop, 40);
+                    else setTimeout(() => { ci = 0; li++; typeLoop(); }, 1200);
+                }
+
+                typeLoop();
+
+                // Sehrə başla + confetti
+                document.getElementById('magic').addEventListener('click', () => {
+                    document.getElementById('reveal').style.display = 'block';
+                    document.getElementById('date').textContent = new Date().toLocaleDateString('az-AZ', { day: '2-digit', month: 'long', year: 'numeric' });
+                    for (let i = 0; i < 50; i++) {
+                        const c = document.createElement('div');
+                        c.style.position = 'fixed';
+                        c.style.width = '10px';
+                        c.style.height = '14px';
+                        c.style.background = `hsl(${Math.random() * 360},90%,60%)`;
+                        c.style.left = Math.random() * 100 + 'vw';
+                        c.style.top = '-10px';
+                        c.style.zIndex = 10;
+                        document.body.appendChild(c);
+                        const dur = 3000 + Math.random() * 2000;
+                        c.animate([{ transform: 'translateY(0)' }, { transform: `translateY(${window.innerHeight + 20}px)` }], { duration: dur, easing: 'linear' });
+                        setTimeout(() => c.remove(), dur);
+                    }
+                });
+
+                // Səsləndir düyməsi - lokal MP3
+                document.getElementById('musicBtn').addEventListener('click', () => {
+                    const audio = document.getElementById('audio');
+                    audio.currentTime = 0;
+                    audio.play().catch(() => alert("Yenidən klikləyin."));
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
