@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -66,10 +66,10 @@
             transition: .3s;
         }
 
-            button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 10px 25px rgba(255,122,198,0.35);
-            }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,122,198,0.35);
+        }
 
         .grid {
             display: grid;
@@ -84,14 +84,15 @@
             padding: 12px;
         }
 
-            .tile .emoji {
-                font-size: 28px;
-                margin-bottom: 6px;
-                display: block;
-            }
+        .tile .emoji {
+            font-size: 28px;
+            margin-bottom: 6px;
+            display: block;
+        }
 
         .flip {
             perspective: 1000px;
+            cursor: pointer;
         }
 
         .flip-inner {
@@ -102,9 +103,11 @@
             transition: transform .8s;
         }
 
+        /* həm hover, həm də active ilə çevriləcək */
+        .flip:hover .flip-inner,
         .flip-inner.active {
-    transform: rotateY(180deg);
-}
+            transform: rotateY(180deg);
+        }
 
         .face {
             position: absolute;
@@ -115,6 +118,8 @@
             backface-visibility: hidden;
             border-radius: 18px;
             background: rgba(255,255,255,0.08);
+            padding: 10px;
+            text-align: center;
         }
 
         .back {
@@ -136,7 +141,6 @@
         <div class="btn-container">
             <button id="musicBtn">Səsləndir ♫</button>
             <button id="magic">Sehrə başla ✨</button>
-            
         </div>
 
         <div id="reveal" style="display:none;">
@@ -144,7 +148,12 @@
                 <div class="tile"><span class="emoji">💫</span><h3>Kiçik möcüzələr</h3><p>Bu səhifə kiçik bir möcüzədir… əsl möcüzə sənsən..</p></div>
                 <div class="tile"><span class="emoji">🌇</span><h3>Bakı səninlə daha gözəldir </h3><p>Sən, gülümsəyəndə Bakı da gözəl olur.</p></div>
                 <div class="tile"><span class="emoji">🎈</span><h3>Sevgi</h3><p>Arzuladığın hər şey sənin olsun ✨</p></div>
-                <div class="tile flip"><div class="flip-inner"><div class="face">Kartı çevir ➜</div><div class="face back"><em>Bu səhifə kiçik bir səbəbdir… əsl səbəb sənsən Aida. 💖</em></div></div></div>
+                <div class="tile flip">
+                    <div class="flip-inner">
+                        <div class="face">Kartı çevir ➜</div>
+                        <div class="face back"><em>Bu səhifə kiçik bir səbəbdir… əsl səbəb sənsən Aida. 💖</em></div>
+                    </div>
+                </div>
             </div>
             <footer>Kenan tərəfindən 💙 · <span id="date"></span></footer>
         </div>
@@ -193,10 +202,12 @@
                 audio.play().catch(() => alert("Yenidən klikləyin."));
             });
 
+            // Mobil üçün flip kart (click event)
             document.querySelectorAll('.flip').forEach(card => {
-        card.addEventListener('click', () => {
-            card.querySelector('.flip-inner').classList.toggle('active');
-        });
+                card.addEventListener('click', () => {
+                    card.querySelector('.flip-inner').classList.toggle('active');
+                });
+            });
         </script>
     </div>
 </body>
