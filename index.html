@@ -102,9 +102,9 @@
             transition: transform .8s;
         }
 
-        .flip:hover .flip-inner {
-            transform: rotateY(180deg);
-        }
+        .flip-inner.active {
+    transform: rotateY(180deg);
+}
 
         .face {
             position: absolute;
@@ -192,7 +192,13 @@
                 audio.currentTime = 0;
                 audio.play().catch(() => alert("Yenidən klikləyin."));
             });
+
+            document.querySelectorAll('.flip').forEach(card => {
+        card.addEventListener('click', () => {
+            card.querySelector('.flip-inner').classList.toggle('active');
+        });
         </script>
     </div>
 </body>
 </html>
+
