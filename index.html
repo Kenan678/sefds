@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -102,7 +102,15 @@
             transition: transform .8s;
         }
 
-        .flip:hover .flip-inner {
+        /* Hover effect for desktop */
+        @media (hover: hover) and (pointer: fine) {
+            .flip:hover .flip-inner {
+                transform: rotateY(180deg);
+            }
+        }
+
+        /* Flipped state for mobile */
+        .flip-inner.flipped {
             transform: rotateY(180deg);
         }
 
@@ -140,21 +148,25 @@
         <h1>AIDA</h1>
         <p class="sub"><span id="type"></span></p>
         <div class="btn-container">
-            <button id="magic">Sehrə başla ✨</button>
             <button id="musicBtn">Səsləndir ♫</button>
+            <button id="magic">Sehrə başla ✨</button>
         </div>
 
         <div id="reveal" style="display:none;">
             <div class="grid">
-                <div class="tile"><span class="emoji">🌇</span><h3>Bakı işıqları səninlə </h3><p>Aida, gülümsəyəndə şəhər də sanki daha rəngli olur.</p></div>
-                <div class="tile"><span class="emoji">💫</span><h3>Kiçik möcüzələr</h3><p>Günün ortasında yazılan balaca mesaj belə səni xatırladanda gözəl olur.</p></div>
-                <div class="tile"><span class="emoji">🎈</span><h3>Yüngüllük</h3><p>Sənin enerjin hər söhbətə rahatlıq və yumor qatır.</p></div>
-                <div class="tile flip"><div class="flip-inner"><div class="face">Kartı çevir ➜</div><div class="face back"><em>Bu səhifə kiçik bir səbəbdir… əsl səbəb sənsən. 💖</em></div></div></div>
+                <div class="tile"><span class="emoji">💫</span><h3>Kiçik möcüzələr</h3><p>Bu səhifə kiçik bir möcüzədir… əsl möcüzə sənsən..</p></div>
+                <div class="tile"><span class="emoji">🌇</span><h3>Bakı  səninlə daha gözəldir </h3><p>Sən, gülümsəyəndə Bakı da gözəl olur.</p></div>
+                <div class="tile"><span class="emoji">🎈</span><h3>Sevgi</h3><p>Arzuladığın hər şey sənin olsunş</p></div>
+                <div class="tile flip">
+                    <div class="flip-inner">
+                        <div class="face">Kartı çevir ➜</div>
+                        <div class="face back"><em>Bu səhifə kiçik bir səbəbdir… əsl səbəb sənsən. 💖</em></div>
+                    </div>
+                </div>
             </div>
             <footer>Kenan tərəfindən 💙 · <span id="date"></span></footer>
         </div>
 
-        <!-- Lokal MP3 fayl -->
         <audio id="audio" src="love.mp3" controls></audio>
 
         <script>
@@ -194,11 +206,18 @@
                     }
                 });
 
-                // Səsləndir düyməsi - lokal MP3
+                // Səsləndir düyməsi
                 document.getElementById('musicBtn').addEventListener('click', () => {
                     const audio = document.getElementById('audio');
                     audio.currentTime = 0;
                     audio.play().catch(() => alert("Yenidən klikləyin."));
+                });
+
+                // Flip kart kliklə açılıb-bağlanması (mobil üçün)
+                document.querySelectorAll('.flip').forEach(flip => {
+                    flip.addEventListener('click', () => {
+                        flip.querySelector('.flip-inner').classList.toggle('flipped');
+                    });
                 });
             });
         </script>
