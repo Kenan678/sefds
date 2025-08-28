@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -102,15 +102,7 @@
             transition: transform .8s;
         }
 
-        /* Hover effect for desktop */
-        @media (hover: hover) and (pointer: fine) {
-            .flip:hover .flip-inner {
-                transform: rotateY(180deg);
-            }
-        }
-
-        /* Flipped state for mobile */
-        .flip-inner.flipped {
+        .flip:hover .flip-inner {
             transform: rotateY(180deg);
         }
 
@@ -135,12 +127,6 @@
             font-size: 14px;
             opacity: .7;
         }
-
-        audio {
-            margin-top: 15px;
-            width: 100%;
-            border-radius: 10px;
-        }
     </style>
 </head>
 <body>
@@ -150,75 +136,61 @@
         <div class="btn-container">
             <button id="musicBtn">Səsləndir ♫</button>
             <button id="magic">Sehrə başla ✨</button>
+            
         </div>
 
         <div id="reveal" style="display:none;">
             <div class="grid">
                 <div class="tile"><span class="emoji">💫</span><h3>Kiçik möcüzələr</h3><p>Bu səhifə kiçik bir möcüzədir… əsl möcüzə sənsən..</p></div>
-                <div class="tile"><span class="emoji">🌇</span><h3>Bakı  səninlə daha gözəldir </h3><p>Sən, gülümsəyəndə Bakı da gözəl olur.</p></div>
-                <div class="tile"><span class="emoji">🎈</span><h3>Sevgi</h3><p>Arzuladığın hər şey sənin olsunş</p></div>
-                <div class="tile flip">
-                    <div class="flip-inner">
-                        <div class="face">Kartı çevir ➜</div>
-                        <div class="face back"><em>Bu səhifə kiçik bir səbəbdir… əsl səbəb sənsən. 💖</em></div>
-                    </div>
-                </div>
+                <div class="tile"><span class="emoji">🌇</span><h3>Bakı səninlə daha gözəldir </h3><p>Sən, gülümsəyəndə Bakı da gözəl olur.</p></div>
+                <div class="tile"><span class="emoji">🎈</span><h3>Sevgi</h3><p>Arzuladığın hər şey sənin olsun ✨</p></div>
+                <div class="tile flip"><div class="flip-inner"><div class="face">Kartı çevir ➜</div><div class="face back"><em>Bu səhifə kiçik bir səbəbdir… əsl səbəb sənsən Aida. 💖</em></div></div></div>
             </div>
             <footer>Kenan tərəfindən 💙 · <span id="date"></span></footer>
         </div>
 
+        <!-- Lokal MP3 fayl -->
         <audio id="audio" src="love.mp3" controls></audio>
 
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                // Typewriter effekti
-                const lines = ['✨ Aida ✨', '✨ Sən çox gözəlsən ✨'];
-                let li = 0, ci = 0;
-                const typeEl = document.getElementById('type');
+            // Typewriter effekti
+            const lines = ['✨ Aida ✨', '✨ Sən çox gözəlsən ✨'];
+            let li = 0, ci = 0;
+            const typeEl = document.getElementById('type');
+            function typeLoop() {
+                if (li >= lines.length) li = 0;
+                const text = lines[li];
+                typeEl.textContent = text.slice(0, ++ci);
+                if (ci <= text.length) setTimeout(typeLoop, 40);
+                else setTimeout(() => { ci = 0; li++; typeLoop(); }, 1200);
+            }
+            typeLoop();
 
-                function typeLoop() {
-                    if (li >= lines.length) li = 0;
-                    const text = lines[li];
-                    typeEl.textContent = text.slice(0, ++ci);
-                    if (ci <= text.length) setTimeout(typeLoop, 40);
-                    else setTimeout(() => { ci = 0; li++; typeLoop(); }, 1200);
+            // Sehrə başla + confetti
+            document.getElementById('magic').addEventListener('click', () => {
+                document.getElementById('reveal').style.display = 'block';
+                document.getElementById('date').textContent = new Date().toLocaleDateString('az-AZ', { day: '2-digit', month: 'long', year: 'numeric' });
+                for (let i = 0; i < 50; i++) {
+                    const c = document.createElement('div');
+                    c.style.position = 'fixed';
+                    c.style.width = '10px';
+                    c.style.height = '14px';
+                    c.style.background = `hsl(${Math.random() * 360},90%,60%)`;
+                    c.style.left = Math.random() * 100 + 'vw';
+                    c.style.top = '-10px';
+                    c.style.zIndex = 10;
+                    document.body.appendChild(c);
+                    const dur = 3000 + Math.random() * 2000;
+                    c.animate([{ transform: 'translateY(0)' }, { transform: `translateY(${window.innerHeight + 20}px)` }], { duration: dur, easing: 'linear' });
+                    setTimeout(() => c.remove(), dur);
                 }
+            });
 
-                typeLoop();
-
-                // Sehrə başla + confetti
-                document.getElementById('magic').addEventListener('click', () => {
-                    document.getElementById('reveal').style.display = 'block';
-                    document.getElementById('date').textContent = new Date().toLocaleDateString('az-AZ', { day: '2-digit', month: 'long', year: 'numeric' });
-                    for (let i = 0; i < 50; i++) {
-                        const c = document.createElement('div');
-                        c.style.position = 'fixed';
-                        c.style.width = '10px';
-                        c.style.height = '14px';
-                        c.style.background = `hsl(${Math.random() * 360},90%,60%)`;
-                        c.style.left = Math.random() * 100 + 'vw';
-                        c.style.top = '-10px';
-                        c.style.zIndex = 10;
-                        document.body.appendChild(c);
-                        const dur = 3000 + Math.random() * 2000;
-                        c.animate([{ transform: 'translateY(0)' }, { transform: `translateY(${window.innerHeight + 20}px)` }], { duration: dur, easing: 'linear' });
-                        setTimeout(() => c.remove(), dur);
-                    }
-                });
-
-                // Səsləndir düyməsi
-                document.getElementById('musicBtn').addEventListener('click', () => {
-                    const audio = document.getElementById('audio');
-                    audio.currentTime = 0;
-                    audio.play().catch(() => alert("Yenidən klikləyin."));
-                });
-
-                // Flip kart kliklə açılıb-bağlanması (mobil üçün)
-                document.querySelectorAll('.flip').forEach(flip => {
-                    flip.addEventListener('click', () => {
-                        flip.querySelector('.flip-inner').classList.toggle('flipped');
-                    });
-                });
+            // Səsləndir düyməsi - lokal MP3
+            document.getElementById('musicBtn').addEventListener('click', () => {
+                const audio = document.getElementById('audio');
+                audio.currentTime = 0;
+                audio.play().catch(() => alert("Yenidən klikləyin."));
             });
         </script>
     </div>
